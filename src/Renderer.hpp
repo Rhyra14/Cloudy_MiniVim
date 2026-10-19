@@ -15,7 +15,8 @@ Renderer把Buffer中的内容、Window中的可见区域和Editor的状态拼成
 namespace sjtu {
 
 struct RenderState {
-    //绘制底部一行所需的状态,command_不包含冒号,message_保存提示或错误信息
+    //绘制底部一行所需的状态,
+    //command_##不包含##冒号,message_保存提示或错误信息
     Mode mode_{Mode::Normal};
     std::string command_;
     std::string message_;
@@ -29,6 +30,7 @@ public:
 private:
     //将一行内容展开为可显示的字符,主要处理Tab的宽度
     static std::string ExpandForDisplay(std::string_view line); 
+    //string_view 是一个只读字符串类型 不拥有不拷贝 O(1)
 };
 
 } // namespace sjtu

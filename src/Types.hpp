@@ -29,14 +29,14 @@ struct Viewport {
     size_t left_{0};
     size_t rows_{1};
     size_t columns_{1};
-};
+}; //框定一个终端的正文区域
 
 //分别表示普通模式、插入模式和冒号命令行模式
 enum class Mode {
     Normal,
     Insert,
     CommandLine,
-};
+}; // 限域枚举 用Mode::Normal来引用
 
 //Basic中支持的四个移动方向,可以由hjkl等按键生成
 enum class Motion {
@@ -44,7 +44,7 @@ enum class Motion {
     Down,
     Up,
     Right,
-};
+}; // 同样是限域枚举
 
 } // namespace sjtu
 

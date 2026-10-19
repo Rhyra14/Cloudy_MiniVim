@@ -13,7 +13,7 @@ namespace sjtu {
 constexpr size_t tabStop = 4; //Tab对齐到下一个4的倍数列,不一定总占4列
 
 inline size_t NextScreenColumn(size_t column, char value) {
-    //返回从column开始显示value后的位置:Tab跳到下一个制表位,普通字符占1列
+    //返回从第column列，输入/显示value之后的位置:Tab跳到下一个制表位,普通字符占1列
     if (value == '\t') {
         return column + (tabStop - (column % tabStop)); 
     }
@@ -22,6 +22,7 @@ inline size_t NextScreenColumn(size_t column, char value) {
 }
 
 inline size_t RenderColumnToBufferColumn(std::string_view line, size_t render_column) {
+    //从屏幕列反向推出来对应的字符下标
     //把整行展开后的显示列转换为字符下标
     //显示列落在Tab占据的任意一列时,都返回该Tab的字符下标
     //非空行中,显示列超过展开后的行尾时返回line.size()
@@ -34,7 +35,7 @@ inline size_t RenderColumnToBufferColumn(std::string_view line, size_t render_co
         size_t next = NextScreenColumn(current, line[index]);
         if (render_column < next) {
             return index;
-        }
+        } // 当前列处于[current, next) 中间 就返回这个index（字符下标）
         current = next;
     }
 
@@ -42,6 +43,7 @@ inline size_t RenderColumnToBufferColumn(std::string_view line, size_t render_co
 }
 
 inline size_t BufferColumnToRenderColumn(std::string_view line, size_t buffer_column) {
+    //上一个函数的逆向操作，从字符下标到屏幕列
     //把字符下标转换为该字符在整行展开后的起始显示列
     //调用方须保证buffer_column在[0, line.size()]内
     //传入line.size()返回整行的显示宽度
