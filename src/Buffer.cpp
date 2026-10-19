@@ -115,8 +115,12 @@ void Buffer::SaveAs(const std::filesystem::path& path) {
 void Buffer::WriteTo(const std::filesystem::path& path) const {
     //实际将缓冲区中的内容写入path指向的文件中
     std::ofstream output(path);
-    if(!output.is_open()) throw std::runtime_error("Cannot open file for writing");
-    for(std::size_t i=0; i<lines_.size(); i++) output << lines_[i] << std::endl;
+    if(!output.is_open()) throw std::runtime_error("Cannot open file for writing" + path.string());
+    for(std::size_t i=0; i<lines_.size(); i++) {
+        if(i > 0) output << std::endl;
+        output << lines_[i];
+    }
+    if(!lines_.empty() && !lines_.back().empty()) output << std::endl;
 }
 
 } // namespace sjtu
